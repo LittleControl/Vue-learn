@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="test">
+        <input type="text" value="Little" id="first">
+        <input type="text" value="Control" id="second">
+        <p id="res">LittleControl</p>
+    </div>
+</body>
+<script>
+    let first = document.getElementById('first')
+    let second = document.getElementById('second')
+    let res = document.getElementById('res')
+
+    first.addEventListener('input', handle)
+    second.addEventListener('input',handle)
+
+    function handle() {
+        res.innerHTML = first.value + second.value
+    }
+
+
+</script>
+</html>

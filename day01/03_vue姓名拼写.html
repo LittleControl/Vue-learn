@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test">
+        <input type="text" v-model=first>
+        <input type="text" v-model=second>
+        <!-- 里面替换以后也可以自己拼接一些字符 -->
+        <p id="res">{{first + ' ' + second}}</p>
+        <!-- 下面这种方式是无效的 -->
+        <p>{{res}}</p>
+    </div>
+</body>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let test = new Vue({
+        el: '#test',
+        data: {
+            first: 'Little',
+            second: 'Control',
+            //这样是不可以的
+            res: this.first + this.second
+        }
+    })
+
+</script>
+
+</html>
