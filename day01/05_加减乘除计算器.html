@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="number" v-model="num1">
+        <select v-model="operation" v-on:change="getValue">
+            <option value="0">+</option>
+            <option value="1">-</option>
+            <option value="2">*</option>
+            <option value="3">/</option>
+        </select>
+        <input type="number" v-model="num2">
+        <button v-on:click="getRes">=</button>
+        <strong>{{res}}</strong>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                num1: 1,
+                num2: 1,
+                res: 1,
+                operation: 3
+            },
+            methods: {
+                getValue() {
+                    this.operation = this.value
+                },
+                getRes() {
+                    if (this.operation == 0) {
+                        this.res = this.num1 + this.num2
+                    } else if (this.operation == 1) {
+                        this.res = this.num1 - this.num2
+                    } else if (this.operation == 2) {
+                        this.res = this.num1 * this.num2
+                    } else {
+                        this.res = this.num1 / this.num2
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
