@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            position: relative;
+        }
+
+        #app {
+            width: 400px;
+            position: absolute;
+            padding: 10px;
+            top: 30%;
+            left: 40%;
+            border: 1px red solid;
+        }
+
+        .done {
+            /* text-decoration-line: line-through; */
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{todos.filter(item => !item.done).length}} of {{ todos.length }} remaining [archive]</p>
+        <!-- <p v-for="(item, index) in todos" :key="index"> -->
+        <p v-for="(item, index) in todos" v-bind:class="{done: item.done}">
+            <!-- <p v-for="item in todos"> -->
+            <input type="checkbox" v-model="item.done"> {{ item.title }}
+            <button @click="deleteItem(index)">Delete</button>
+        </p>
+        <input type="text" v-model="inputText" @keydown.enter="addItem">&nbsp;&nbsp;&nbsp;<button @click="addItem"> Add
+        </button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let todos = [
+            {
+                id: 1,
+                title: '喝酒呀',
+                done: false
+            },
+            {
+                id: 2,
+                title: '睡觉呀',
+                done: false
+            }, {
+                id: 3,
+                title: '起床呀',
+                done: false
+            }
+        ]
+        const app = new Vue({
+            el: '#app',
+            data: {
+                todos,
+                inputText: ''
+            },
+            methods: {
+                addItem() {
+                    let obj = {
+                        id: this.todos[this.todos.length - 1].id + 1,
+                        title: this.inputText,
+                        done: false
+                    }
+                    this.todos.push(obj)
+                    this.inputText = ''
+                },
+                deleteItem(index) {
+                    // console.log(arguments)
+                    this.todos.splice(index, 1)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
