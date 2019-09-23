@@ -1,0 +1,41 @@
+<!-- 
+    v-on/@
+    v-bind/:
+    v-if
+    v-html
+    v-for
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h2 v-if="seen">你看不见我</h2>
+        <button @click="btnClick"></button>
+        <a :href="'/search?id=' + id"></a>
+
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                seen: false,
+                id: 0
+            },
+            methods: {
+                btnClick () {
+                    console.log(this)
+                }   
+            }
+        })
+    </script>
+</body>
+</html>

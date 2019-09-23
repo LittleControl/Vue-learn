@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .color {
+            color: red;
+            background-color: skyblue;
+            text-align: center;
+        }
+        .nothing {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p :class="{nothing: isActive}">Nothing To Do But Love</p>
+        <p :class="{color: isActive}">The days are long but the decades are short</p>
+        <p :style="{backgroundColor: 'red'}">www.littlecontrol.top</p>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                isActive: true
+            }
+        })
+    </script>
+</body>
+</html>
