@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <input type="number" v-model="num1">
-        <select v-model="operation" v-on:change="getValue">
+        <select v-model="operation" v-model.number="operation">
             <option value="0">+</option>
             <option value="1">-</option>
             <option value="2">*</option>
