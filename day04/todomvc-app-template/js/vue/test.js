@@ -29,9 +29,7 @@ let arr = [
 //         arr.splice(item,1)
 //     }
 // }
-arr = arr.filter(item => {
-    return item.id != 1
-})
+arr = arr.filter(item => item.id == 1)
 
 console.log(arr);
 

@@ -10,7 +10,7 @@
 	<!-- CSS overrides - remove if you don't need it -->
 	<link rel="stylesheet" href="css/app.css">
 	<style>
-		.seen {
+		.cannotseen {
 			display: none;
 		}
 	</style>
@@ -61,7 +61,7 @@
 		</section>
 		<!-- This footer should hidden by default and shown when there are todos -->
 		<!-- <footer class="footer"> -->
-		<footer :class="{footer: 'true'}">
+		<footer :class="{footer: 'true', cannotseen: isTodosEmpty}">
 			<!-- This should be `0 items left` by default -->
 			<span class="todo-count"><strong>{{todos.filter(item => !item.isCompleted).length}}</strong> of
 				{{ todos.length }} are left</span>
@@ -78,7 +78,8 @@
 				</li>
 			</ul>
 			<!-- Hidden if no completed items are left ↓ -->
-			<button class="clear-completed" @click="clearCompleted">Clear completed</button>
+			<button class="clear-completed" @click="clearCompleted" :class="{cannotseen: !isHaveComplete}">Clear
+				completed</button>
 		</footer>
 	</section>
 	<footer class="info">

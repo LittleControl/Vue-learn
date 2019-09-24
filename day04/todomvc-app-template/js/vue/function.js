@@ -4,6 +4,8 @@ const app = new Vue({
         seen: false,
         inputText: '',
         isAllComplete: false,
+        isHaveComplete: false,
+        isTodosEmpty: false,
         todos: [
             {
                 value: 'Sleep',
@@ -44,12 +46,19 @@ const app = new Vue({
             }
             this.todos.push(obj)
             this.inputText = ''
+            this.isTodosEmpty = false
         },
         changeisCompleted(index) {
             this.todos[index].isCompleted = !this.todos[index].isCompleted
+            if (this.todos[index].isCompleted) {
+                this.isHaveComplete = true
+            }
         },
         deleteItem(index) {
             this.todos.splice(index, 1)
+            if (this.todos.length == 0) {
+                this.isTodosEmpty = true
+            }
         },
         editClick(index) {
             this.todos[index].isEdit = true
@@ -87,10 +96,14 @@ const app = new Vue({
                     item.isCompleted = true
                 }
                 this.isAllComplete = true
+                this.isHaveComplete = true
             }
         },
         clearCompleted() {
-            this.todos = this.todos.filter(item => item.isCompleted = false)
+            this.todos = this.todos.filter(item => item.isCompleted == false)
+            if (this.todos.length == 0) {
+                this.isTodosEmpty = true
+            }
         }
     }
 })
