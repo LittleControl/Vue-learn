@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bgc{
+            width: 200px;
+            height: 200px;
+            background-color: #bfa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 单项绑定 -->
+        <input type="text" :value="message"><br>
+        <!-- 双向绑定 -->
+        <input type="text" v-model="message"><br>
+        <!-- 一般而言,v-model只能绑定于表单控件,不可用于一般元素 -->
+        <!-- 下面这种用法是错误的 -->
+        <!-- <h1 v-model="message">Nothing to do</h1> -->
+        <input type="checkbox" v-model="isActive">
+        <div :class="{bgc: isActive}"></div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: 'www.littlecontrol.top',
+                name: 'LittleControl',
+                isActive: true
+            }
+        })
+    </script>
+</body>
+
+</html>
