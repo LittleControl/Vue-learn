@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        v-if 的模板语法
+            因为v-if必须作用于一个dom元素,但是有的时候会多一个无关的dom标签
+            所以vue提供了一种语法来解决这种问题
+     -->
+    <div id="app">
+        <h1>Nothing</h1>
+        <hr>
+        <template v-if="seen">
+            <h2>Okay</h2>
+            <h3>Nothing</h3>
+        </template>
+
+    </div>
+     <script src="../node_modules/vue/dist/vue.js"></script>
+     <script>
+         const app = new Vue({
+             el: '#app',
+             data: {
+                 seen: true
+             }
+         })
+     </script>
+</body>
+</html>
