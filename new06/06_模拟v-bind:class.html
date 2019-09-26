@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box1 {
+            width: 200px;
+            height: 200px;
+            background-color: #bfa;
+        }
+
+        .box2 {
+            color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="checkbox" v-model="box1"> box1
+        <input type="checkbox" v-model="box2"> box2 <br>
+        <div v-mybind-class:class="{box1: box1, box2: box2}">{{website}}</div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.directive('mybind-class', function (el, binding) {
+            if (binding.arg != 'class') {
+                el.setAttribute(binding.arg, binding.value)
+            } else {
+                for (let item in binding.value) {
+                    if (binding.value[item]) {
+                        el.classList.add(item)
+                    } else {
+                        el.classList.remove(item)
+                    }
+                }
+            }
+        })
+        const app = new Vue({
+            el: '#app',
+            data: {
+                box1: false,
+                box2: false,
+                website: 'www.littlecontrol.top'
+            }
+        })
+    </script>
+</body>
+
+</html>

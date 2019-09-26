@@ -1,0 +1,109 @@
+<!-- 
+    当仍然需要对普通DOM元素进行底层操作的时候
+    我们就需要用自定义指令了
+
+    注意这里的自定义指令调用的时候需要添加'v-'前缀,并且调用的时候驼峰命名法须改为`-`连接的方式
+    也就是说自定义指令在调用的时候不允许出现大写的字母,所有大写字母都得转为`-`+小写字母
+
+ -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background-color: #bfa;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="clearBtn">clear this Vue example</button>
+    <div id="app">
+        <input type="text" v-focus-n-n>
+        <div id="box" v-myshow="seen">{{ seen }}</div>
+    </div>
+    <div id="test">
+        <input type="text" v-model="name">
+        <h3>{{name}}</h3>
+    </div>
+    <script>
+        let btn = document.getElementById('clearBtn')
+        btn.onclick = function () {
+            let app = document.getElementById('app')
+            // console.log(app)
+            app.innerHTML = ''
+        }
+    </script>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.directive('focusNN', {
+            bind() {
+                console.log('bind()...')
+            },
+            inserted(el) {
+                console.log('inserted()...')
+                el.focus()
+            },
+            update(el, binding) {
+                console.log()
+            },
+            componentUpdated(el, binding) {
+
+            },
+            unbind() {
+
+            }
+        })
+        // 模拟实现v-show
+        Vue.directive('myshow', {
+            bind() {
+                //只执行一次,不能获得父节点
+            },
+            inserted() {
+                //只执行一次,可以获得父节点
+            },
+            update(el, binding) {
+                //注意,该Vue实例下的所有模板更新都会触发update和componentUpdated事件,不仅仅是当前节点
+                console.log('update is running');
+                //输出为更新前的innerHTML
+                console.log(el.innerHTML)
+                // console.log(typeof binding.value)
+                if (binding.value == false) {
+                    el.style.display = 'none'
+                } else {
+                    el.style.display = 'block'
+                }
+            },
+            componentUpdated(el, binding) {
+                console.log('Update has finished!');
+                //输出为更新后的innerHTML
+                console.log(el.innerHTML)
+            },
+            unbind(el, binding) {
+                //常用于指令卸载的后事工作,比如清除定时器
+                console.log('binding...')
+            }
+        })
+        const app = new Vue({
+            data: {
+                seen: true
+            }
+        }).$mount('#app')
+        const test = new Vue({
+            data: {
+                name: 'LittleControl'
+            }
+        }).$mount('#test')
+    </script>
+</body>
+
+</html>
