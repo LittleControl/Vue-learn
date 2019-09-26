@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ name }}</h1>
+        <ul>
+            <li v-for="items in lis"> {{items.name}}</li>
+        </ul>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                lis: [
+                    { name: 'Little' },
+                    { name: 'Control' },
+                    { name: 'Rain' }
+                ]
+            },
+            computed: {
+                // name: function () {
+                //     return 'www.littlecontrol.top'
+                // }
+                name: {
+                    get: function () {
+                        return 'www.littlecontrol.top'
+                    },
+                    set: function (value) {
+                        console.log(this.name)
+                        console.log(value)
+                        //下面这一句代码会进入死循环
+                        // this.name = value
+                    }
+                }
+            },
+            watch: {
+                lis: {
+                    handler: function () {
+                        console.log('handler is running!')
+                    },
+                    deep: true,
+                    immediate: true
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
