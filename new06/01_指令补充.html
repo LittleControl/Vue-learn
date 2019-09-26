@@ -1,0 +1,57 @@
+<!-- 
+    v-text 与 模板语法
+        v-text 会替换整个元素内容
+        如果需要替换部分的内容,请使用模板语法
+    v-if/v-show
+        v-if 当值为false时,并不会渲染dom元素
+        而v-show无论为何值,都会渲染dom元素,只不过值为false的时候会隐藏dom元素
+        一般而言,对于频繁需要切换视图的元素,推荐使用v-show
+    v-pre
+        使该元素不被vue所编译,即忽略{{}}的语法
+    v-cloak
+        当该元素被编译完成后再渲染,可解决元素内容闪烁问题
+        一般与一个css样式搭配使用,但是现在单独使用的话似乎也没有什么问题
+
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1 v-text="name"></h1>
+        <h1>{{ name }}</h1>
+        <h1>{{ 'my name is ' + name }}</h1>
+        <h1 v-pre>{{ 'my name is ' + name }}</h1>
+        <h1 v-cloak>{{ 'my name is ' + name }}</h1>
+        <input type="text" @keyup.enter="targetTest">
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                name: 'LittleControl'
+            },
+            methods: {
+                targetTest(e) {
+                    console.log(e.target.value)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
