@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #bfa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 组件必须作用于一个Vue的实例中 -->
+        <my-component></my-component>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: `
+                <div>
+                    <h1>{{ website }}</h1>
+                    <h2>{{ name }}</h2>
+                    <input type="text" v-model="website">Website<br>
+                    <input type="text" v-model="name">Name<br>
+                    <input type="checkbox" v-model="seen">
+                    <div v-if="seen" class="box">Box</div><br>
+                    <button @click="handleClick">Click me to pop a window</button>
+                </div>
+            `,
+            data() {
+                return {
+                    website: 'www.littlecontrol.top',
+                    name: 'LittleControl',
+                    seen: true
+                }
+            },
+            methods: {
+                handleClick() {
+                    window.alert(this.website)
+                }
+            }
+        })
+        new Vue().$mount('#app')
+    </script>
+</body>
+
+</html>
