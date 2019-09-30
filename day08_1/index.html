@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Template • TodoMVC</title>
+	<title>LittleControl • Vue • TodoMVC</title>
 	<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
 	<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
 	<link rel="stylesheet" href="./css/app.css">
@@ -13,10 +13,9 @@
 <body>
 	<section class="todoapp" id="app">
 		<header class="header">
-			<h1>todos</h1>
+			<h1>Vue-todos</h1>
 			<input class="new-todo" placeholder="What needs to be done?" @keyup.enter="addItem($event)" v-focus>
 		</header>
-		<!-- This section should be hidden by default and shown when there are todos -->
 		<template v-if="todos.length">
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox" @change="toggleAll($event)"
@@ -31,15 +30,13 @@
 							<button class="destroy" @click="deleteItem(index)"></button>
 						</div>
 						<input class="edit" :value="item.value" @keyup.enter="doneEdit(index, $event)"
-							@keyup.esc="cancelEdit(index)" @blur="doneEdit(index, $event)" v-todo-focus="currentItem === item">
+							@keyup.esc="cancelEdit(index)" @blur="doneEdit(index, $event)"
+							v-todo-focus="currentItem === item">
 					</li>
 				</ul>
 			</section>
-			<!-- This footer should hidden by default and shown when there are todos -->
 			<footer class="footer">
-				<!-- This should be `0 items left` by default -->
 				<span class="todo-count"><strong>{{ leftItems }}</strong> item left</span>
-				<!-- Remove this if you don't implement routing -->
 				<ul class="filters">
 					<li>
 						<a :class="{selected: hashText===''}" href="#/">All</a>
@@ -51,20 +48,14 @@
 						<a :class="{selected: hashText==='completed'}" href="#/completed">Completed</a>
 					</li>
 				</ul>
-				<!-- Hidden if no completed items are left ↓ -->
 				<button class="clear-completed" @click="clearCompleted">Clear completed</button>
 			</footer>
 		</template>
 	</section>
 	<footer class="info">
 		<p>Double-click to edit a todo</p>
-		<!-- Remove the below line ↓ -->
-		<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
-		<!-- Change this out with your name and url ↓ -->
-		<p>Created by <a href="http://todomvc.com">you</a></p>
-		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		<p>Created by <a href="http://www.littlecontrol.top">LittleControl</a></p>
 	</footer>
-	<!-- Scripts here. Don't remove ↓ -->
 	<script src="node_modules/todomvc-common/base.js"></script>
 	<script src="../node_modules/vue/dist/vue.js"></script>
 	<script src="js/app.js"></script>
