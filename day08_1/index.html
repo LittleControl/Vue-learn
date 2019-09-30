@@ -19,17 +19,19 @@
 		<!-- This section should be hidden by default and shown when there are todos -->
 		<template v-if="todos.length">
 			<section class="main">
-				<input id="toggle-all" class="toggle-all" type="checkbox" @click="toggleAll" v-model="allCompleted">
+				<input id="toggle-all" class="toggle-all" type="checkbox" @change="toggleAll($event)"
+					:checked="isALlCompleted">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
-					<li v-for="(item, index) in filterTodos" :class="{completed: item.isCompleted, editing: item.isEditing}">
+					<li v-for="(item, index) in filterTodos"
+						:class="{completed: item.isCompleted, editing: currentItem === item}">
 						<div class="view">
 							<input class="toggle" type="checkbox" v-model="item.isCompleted">
-							<label @dblclick="toEditing(index)">{{ item.value }}</label>
+							<label @dblclick="toEditing(item)">{{ item.value }}</label>
 							<button class="destroy" @click="deleteItem(index)"></button>
 						</div>
 						<input class="edit" :value="item.value" @keyup.enter="doneEdit(index, $event)"
-							@keyup.esc="cancelEdit(index)" @blur="doneEdit(index, $event)" v-focus>
+							@keyup.esc="cancelEdit(index)" @blur="doneEdit(index, $event)" v-todo-focus="currentItem === item">
 					</li>
 				</ul>
 			</section>
@@ -40,13 +42,13 @@
 				<!-- Remove this if you don't implement routing -->
 				<ul class="filters">
 					<li>
-						<a class="selected" href="#/">All</a>
+						<a :class="{selected: hashText===''}" href="#/">All</a>
 					</li>
 					<li>
-						<a href="#/active">Active</a>
+						<a :class="{selected: hashText==='active'}" href="#/active">Active</a>
 					</li>
 					<li>
-						<a href="#/completed">Completed</a>
+						<a :class="{selected: hashText==='completed'}" href="#/completed">Completed</a>
 					</li>
 				</ul>
 				<!-- Hidden if no completed items are left ↓ -->

@@ -3,24 +3,33 @@ Vue.directive('focus', {
 		el.focus()
 	}
 })
+
+Vue.directive('todo-focus', {
+	update(el, binding) {
+		if (binding.value) {
+			el.focus()
+		}
+	}
+})
+
 let todos = [
 	// {
 	// 	id: 0,
 	// 	value: '感冒',
 	// 	isCompleted: false,
-	// 	isEditing: false
+	// 	// isEditing: false
 	// },
 	// {
 	// 	id: 1,
 	// 	value: '发烧',
 	// 	isCompleted: false,
-	// 	isEditing: false
+	// 	// isEditing: false
 	// },
 	// {
 	// 	id: 2,
 	// 	value: '上火',
 	// 	isCompleted: false,
-	// 	isEditing: false
+	// 	// isEditing: false
 	// }
 ]
 
@@ -28,19 +37,21 @@ const app = new Vue({
 	el: '#app',
 	data: {
 		todos: JSON.parse(window.localStorage.getItem('todos')) || todos,
-		allCompleted: false,
+		currentItem: null,
 		hashText: ''
 	},
 	methods: {
-		toEditing(index) {
-			this.todos[index].isEditing = true
+		toEditing(item) {
+			this.currentItem = item
 		},
 		doneEdit(index, e) {
 			this.todos[index].value = e.target.value
-			this.todos[index].isEditing = false
+			this.currentItem = null
+			// console.log('doneEdit')
 		},
 		cancelEdit(index) {
-			this.todos[index].isEditing = false
+			this.currentItem = null
+			// console.log('cancleEdit')
 		},
 		deleteItem(index) {
 			this.todos.splice(index, 1)
@@ -49,25 +60,22 @@ const app = new Vue({
 			let todoItem = {
 				id: this.todos.length ? this.todos[this.todos.length - 1].id + 1 : 0,
 				value: e.target.value,
-				isCompleted: false,
-				isEditing: false
+				isCompleted: false
 			}
-			if (todoItem.value.trim()) {
-				this.todos.push(todoItem)
-				window.localStorage.setItem(todoItem.id, todoItem.value)
-			}
+			this.todos.push(todoItem)
 			e.target.value = ''
 		},
-		toggleAll() {
-			let res = !this.allCompleted
+		toggleAll(e) {
+			//注意这里e.target.checked是点击之后的值
+			// console.log(e.target.checked)
+			let res = e.target.checked
 			for (let item of this.todos) {
 				item.isCompleted = res
 			}
-			this.allCompleted = res
 		},
 		clearCompleted() {
 			this.todos = this.todos.filter(item => !item.isCompleted)
-		},
+		}
 
 	},
 	watch: {
@@ -95,6 +103,9 @@ const app = new Vue({
 			} else {
 				return this.todos
 			}
+		},
+		isALlCompleted() {
+			return this.todos.every(item => item.isCompleted)
 		}
 	}
 })
@@ -103,4 +114,3 @@ window.onhashchange = function () {
 	app.hashText = window.location.hash.slice(2)
 }
 window.onhashchange()
-
