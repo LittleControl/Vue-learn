@@ -5,5 +5,6 @@ new Vue({
     components: {
         App: app
     },
-    template: `<App />`
+    template: `<App />`,
+    // props:[{'Name': 'Name'}],
 })
