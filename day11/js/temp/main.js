@@ -17,23 +17,7 @@ var _todoFooter2 = _interopRequireDefault(_todoFooter);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:addItem="addItem($event)" \n\t\t/>\n\t\t<template v-if="todos.length">\n\t\t<todo-main \n\t\t\tv-bind:filterTodos="filterTodos" v-on:deleteItem="deleteItem($event)"\n\t\t\t:currentItem="currentItem" @toEditing="toEditing($event)" \n\t\t\t@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"\n\t\t\t:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"\n\t\t/>\n\t\t<todo-footer \n\t\t\t:leftItems="leftItems"\n\t\t\t@clearCompleted="clearCompleted"\n\t\t/>\n\t\t</template>\n\t</section>\n';
-var todos = [
-	// {
-	// 	id: 0,
-	// 	value: '感冒',
-	// 	isCompleted: false,
-	// },
-	// {
-	// 	id: 1,
-	// 	value: '发烧',
-	// 	isCompleted: false,
-	// },
-	// {
-	// 	id: 2,
-	// 	value: '上火',
-	// 	isCompleted: false,
-	// }
-];
+var todos = [];
 
 var app = {
 	components: {
@@ -42,11 +26,11 @@ var app = {
 		todoFooter: _todoFooter2.default
 	},
 	template: template,
+	props: ['hashText'],
 	data: function data() {
 		return {
 			todos: JSON.parse(window.localStorage.getItem('todos')) || todos,
-			currentItem: null,
-			hashText: ''
+			currentItem: null
 		};
 	},
 
@@ -139,12 +123,12 @@ var app = {
 			deep: true
 		}
 	}
-};
 
-window.onhashchange = function () {
-	app.hashText = window.location.hash.slice(2);
-};
+	/* 这里不知道该把这个hash方法放在哪里,所以目前只能用最笨的方法,就是在a标签绑定单击事件来改变hashText的值 */
+	// window.onhashchange = function () {
+	// 	app.hashText = window.location.hash.slice(2)
+	// }
 
-window.onhashchange();
+	// window.onhashchange()
 
-exports.default = app;
+};exports.default = app;

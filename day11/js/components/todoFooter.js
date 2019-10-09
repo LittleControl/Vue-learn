@@ -17,12 +17,12 @@ let template = `
 `
 let todoFooter = {
     template,
-    props: ['hashText','leftItems'],
+    props: ['hashText', 'leftItems'],
     methods: {
         clearCompleted() {
             this.$emit('clearCompleted')
         }
-    },
+    }
 }
 
 export default todoFooter

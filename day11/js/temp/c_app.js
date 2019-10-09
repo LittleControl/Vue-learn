@@ -30,5 +30,15 @@ var app = new Vue({
         App: _main2.default,
         allFooter: _allFooter2.default
     },
-    template: '<div><App /><all-footer /></div>'
+    data: {
+        hashText: ''
+    },
+    template: '<div><App :hashText="hashText" /><all-footer /></div>'
 });
+
+window.onhashchange = function () {
+    app.hashText = window.location.hash.slice(2);
+    console.log(app.hashText);
+};
+
+window.onhashchange();

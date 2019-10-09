@@ -2,7 +2,6 @@ import todoHeader from './todoHeader'
 import { todoMain } from './todoMain'
 import todoFooter from './todoFooter'
 
-
 let template = `
     <section class="todoapp" id="app">
 		<todo-header v-on:addItem="addItem($event)" 
@@ -30,11 +29,11 @@ let app = {
 		todoFooter,
 	},
 	template,
+	props: ['hashText'],
 	data() {
 		return {
 			todos: JSON.parse(window.localStorage.getItem('todos')) || todos,
-			currentItem: null,
-			hashText: ''
+			currentItem: null
 		}
 	},
 	methods: {
@@ -93,14 +92,15 @@ let app = {
 				window.localStorage.setItem('todos', JSON.stringify(this.todos))
 			},
 			deep: true
-		}
+		},
 	},
 }
 
-window.onhashchange = function () {
-	app.hashText = window.location.hash.slice(2)
-}
+/* 这里不知道该把这个hash方法放在哪里,所以目前只能用最笨的方法,就是在a标签绑定单击事件来改变hashText的值 */
+// window.onhashchange = function () {
+// 	app.hashText = window.location.hash.slice(2)
+// }
 
-window.onhashchange()
+// window.onhashchange()
 
 export default app
