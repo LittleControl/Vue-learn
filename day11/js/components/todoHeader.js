@@ -1,7 +1,10 @@
 let template = `
     <header class="header">
         <h1>Vue-todos</h1>
-        <input class="new-todo" placeholder="What needs to be done?" @keyup.enter="addItem($event)">
+        <input class="new-todo" placeholder="What needs to be done?" 
+            @keyup.enter="addItem($event)"
+            v-focus
+        >
     </header>
 `
 let todoHeader = {
@@ -13,11 +16,12 @@ let todoHeader = {
     },
     methods: {
         addItem(e) {
-            console.log(e.target.value)
-            this.$emit('getValue', e.target.value)
+            if (e.target.value.trim()) {
+                this.$emit('addItem', e.target.value)
+                e.target.value = ''
+            }
         }
     },
-    // props:['addItem']
 }
 
 export default todoHeader

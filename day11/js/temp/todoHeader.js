@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var template = '\n    <header class="header">\n        <h1>Vue-todos</h1>\n        <input class="new-todo" placeholder="What needs to be done?" @keyup.enter="addItem($event)">\n    </header>\n';
+var template = '\n    <header class="header">\n        <h1>Vue-todos</h1>\n        <input class="new-todo" placeholder="What needs to be done?" \n            @keyup.enter="addItem($event)"\n            v-focus\n        >\n    </header>\n';
 var todoHeader = {
     template: template,
     data: function data() {
@@ -12,11 +12,12 @@ var todoHeader = {
 
     methods: {
         addItem: function addItem(e) {
-            console.log(e.target.value);
-            this.$emit('getValue', e.target.value);
+            if (e.target.value.trim()) {
+                this.$emit('addItem', e.target.value);
+                e.target.value = '';
+            }
         }
     }
-    // props:['addItem']
 };
 
 exports.default = todoHeader;

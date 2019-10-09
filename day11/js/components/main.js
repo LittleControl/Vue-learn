@@ -1,12 +1,18 @@
 import todoHeader from './todoHeader'
-import {todoMain} from './todoMain'
+import { todoMain } from './todoMain'
 import todoFooter from './todoFooter'
 import footer from './footer'
 
 let template = `
     <section class="todoapp" id="app">
-		<todo-header v-on:getValue="addItem($event)" />
-		<todo-main v-bind:todos='todos' />
+		<todo-header v-on:addItem="addItem($event)" 
+		/>
+		<todo-main 
+			v-bind:todos="todos" v-on:deleteItem="deleteItem($event)"
+			:currentItem="currentItem" @toEditing="toEditing($event)" 
+			@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"
+			:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"
+		/>
 	</section>
 `
 let todos = [
@@ -37,12 +43,43 @@ let app = {
 	template,
 	data() {
 		return {
-			todos
+			todos,
+			currentItem: null,
 		}
 	},
 	methods: {
 		addItem(e) {
-			console.log(e)
+			if (e.trim()) {
+				let obj = {
+					value: e,
+					id: this.todos.length ? this.todos[this.todos.length - 1].id + 1 : 0,
+					isCompleted: false
+				}
+				this.todos.push(obj)
+			}
+		},
+		deleteItem(index) {
+			this.todos.splice(index, 1)
+		},
+		toEditing(item) {
+			this.currentItem = item
+		},
+		doneEdit(e) {
+			this.todos[e.index].value = e.value
+			this.currentItem = null
+		},
+		cancelEdit(e) {
+			this.currentItem = null
+		},
+		toggleAll(res) {
+			for (let item of this.todos) {
+				item.isCompleted = res
+			}
+		}
+	},
+	computed: {
+		isAllCompleted() {
+			return this.todos.every(item => item.isCompleted)
 		}
 	},
 }

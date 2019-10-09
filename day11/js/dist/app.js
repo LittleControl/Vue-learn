@@ -134,7 +134,7 @@ var _footer2 = _interopRequireDefault(_footer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:getValue="addItem($event)" />\n\t\t<todo-main v-bind:todos=\'todos\' />\n\t</section>\n';
+var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:addItem="addItem($event)" \n\t\t/>\n\t\t<todo-main \n\t\t\tv-bind:todos="todos" v-on:deleteItem="deleteItem($event)"\n\t\t\t:currentItem="currentItem" @toEditing="toEditing($event)" \n\t\t\t@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"\n\t\t\t:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"\n\t\t/>\n\t</section>\n';
 var todos = [{
 	id: 0,
 	value: '感冒',
@@ -159,13 +159,67 @@ var app = {
 	template: template,
 	data: function data() {
 		return {
-			todos: todos
+			todos: todos,
+			currentItem: null
 		};
 	},
 
 	methods: {
 		addItem: function addItem(e) {
-			console.log(e);
+			if (e.trim()) {
+				var obj = {
+					value: e,
+					id: this.todos.length ? this.todos[this.todos.length - 1].id + 1 : 0,
+					isCompleted: false
+				};
+				this.todos.push(obj);
+			}
+		},
+		deleteItem: function deleteItem(index) {
+			this.todos.splice(index, 1);
+		},
+		toEditing: function toEditing(item) {
+			this.currentItem = item;
+		},
+		doneEdit: function doneEdit(e) {
+			this.todos[e.index].value = e.value;
+			this.currentItem = null;
+		},
+		cancelEdit: function cancelEdit(e) {
+			this.currentItem = null;
+		},
+		toggleAll: function toggleAll(res) {
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.todos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					item.isCompleted = res;
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+		}
+	},
+	computed: {
+		isAllCompleted: function isAllCompleted() {
+			return this.todos.every(function (item) {
+				return item.isCompleted;
+			});
 		}
 	}
 };
@@ -188,7 +242,7 @@ exports.default = todoFooter;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var template = '\n    <header class="header">\n        <h1>Vue-todos</h1>\n        <input class="new-todo" placeholder="What needs to be done?" @keyup.enter="addItem($event)">\n    </header>\n';
+var template = '\n    <header class="header">\n        <h1>Vue-todos</h1>\n        <input class="new-todo" placeholder="What needs to be done?" \n            @keyup.enter="addItem($event)"\n            v-focus\n        >\n    </header>\n';
 var todoHeader = {
     template: template,
     data: function data() {
@@ -197,11 +251,12 @@ var todoHeader = {
 
     methods: {
         addItem: function addItem(e) {
-            console.log(e.target.value);
-            this.$emit('getValue', e.target.value);
+            if (e.target.value.trim()) {
+                this.$emit('addItem', e.target.value);
+                e.target.value = '';
+            }
         }
     }
-    // props:['addItem']
 };
 
 exports.default = todoHeader;
@@ -231,10 +286,29 @@ Object.defineProperty(exports, "__esModule", {
         </ul>
     </section>
 ` */
-var template = '\n    <section class="main">\n        <input id="toggle-all" class="toggle-all" type="checkbox>\n        <label for="toggle-all">Mark all as complete</label>\n        <ul class="todo-list">\n            <li v-for="(item, index) in todos">\n                <div class="view">\n                    <input class="toggle" type="checkbox">\n                    <label>{{ item.value }}</label>\n                    <button class="destroy"></button>\n                </div>\n                <input class="edit">\n            </li>\n        </ul>\n    </section>\n\n';
+var template = '\n    <section class="main">\n        <input id="toggle-all" class="toggle-all" type="checkbox"\n            @click="toggleAll($event)"\n            :checked="isAllCompleted">\n        <label for="toggle-all">Mark all as complete</label>\n        <ul class="todo-list">\n            <li v-for="(item, index) in todos"\n            :class="{completed: item.isCompleted, editing: currentItem === item}">\n                <div class="view">\n                    <input class="toggle" type="checkbox" v-model="item.isCompleted">\n                    <label @dblclick="toEditing(item)">{{ item.value }}</label>\n                    <button class="destroy" @click="deleteItem(index)"></button>\n                </div>\n                <input class="edit"\n                :value="item.value" @keyup.enter="doneEdit(index, $event)"\n                @keyup.esc="cancelEdit(index)" @blur="doneEdit(index, $event)"\n                v-todo-focus="currentItem === item"\n                >\n            </li>\n        </ul>\n    </section>\n\n';
 var todoMain = {
-    props: ['todos'],
-    template: template
+    props: ['todos', 'currentItem', 'isAllCompleted'],
+    template: template,
+    methods: {
+        deleteItem: function deleteItem(index) {
+            this.$emit('deleteItem', index);
+        },
+        toEditing: function toEditing(item) {
+            this.$emit('toEditing', item);
+        },
+        doneEdit: function doneEdit(index, e) {
+            var value = e.target.value;
+            this.$emit('doneEdit', { index: index, value: value });
+        },
+        cancelEdit: function cancelEdit(index) {
+            this.$emit('cancelEdit', index);
+        },
+        toggleAll: function toggleAll(e) {
+            var res = e.target.checked;
+            this.$emit('toggleAll', res);
+        }
+    }
 };
 
 exports.todoMain = todoMain;
