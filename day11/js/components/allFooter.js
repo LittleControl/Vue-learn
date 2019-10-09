@@ -4,8 +4,8 @@ let template = `
         <p>Created by <a href="http://www.littlecontrol.top">LittleControl</a></p>
     </footer>
 `
-let footer = {
+let allFooter = {
     template
 }
 
-export default footer
+export default allFooter

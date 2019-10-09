@@ -14,39 +14,39 @@ var _todoFooter = require('./todoFooter');
 
 var _todoFooter2 = _interopRequireDefault(_todoFooter);
 
-var _footer = require('./footer');
-
-var _footer2 = _interopRequireDefault(_footer);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:addItem="addItem($event)" \n\t\t/>\n\t\t<todo-main \n\t\t\tv-bind:todos="todos" v-on:deleteItem="deleteItem($event)"\n\t\t\t:currentItem="currentItem" @toEditing="toEditing($event)" \n\t\t\t@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"\n\t\t\t:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"\n\t\t/>\n\t</section>\n';
-var todos = [{
-	id: 0,
-	value: '感冒',
-	isCompleted: false
-}, {
-	id: 1,
-	value: '发烧',
-	isCompleted: false
-}, {
-	id: 2,
-	value: '上火',
-	isCompleted: false
-}];
+var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:addItem="addItem($event)" \n\t\t/>\n\t\t<template v-if="todos.length">\n\t\t<todo-main \n\t\t\tv-bind:filterTodos="filterTodos" v-on:deleteItem="deleteItem($event)"\n\t\t\t:currentItem="currentItem" @toEditing="toEditing($event)" \n\t\t\t@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"\n\t\t\t:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"\n\t\t/>\n\t\t<todo-footer \n\t\t\t:leftItems="leftItems"\n\t\t\t@clearCompleted="clearCompleted"\n\t\t/>\n\t\t</template>\n\t</section>\n';
+var todos = [
+	// {
+	// 	id: 0,
+	// 	value: '感冒',
+	// 	isCompleted: false,
+	// },
+	// {
+	// 	id: 1,
+	// 	value: '发烧',
+	// 	isCompleted: false,
+	// },
+	// {
+	// 	id: 2,
+	// 	value: '上火',
+	// 	isCompleted: false,
+	// }
+];
 
 var app = {
 	components: {
 		todoHeader: _todoHeader2.default,
 		todoMain: _todoMain.todoMain,
-		todoFooter: _todoFooter2.default,
-		footer: _footer2.default
+		todoFooter: _todoFooter2.default
 	},
 	template: template,
 	data: function data() {
 		return {
-			todos: todos,
-			currentItem: null
+			todos: JSON.parse(window.localStorage.getItem('todos')) || todos,
+			currentItem: null,
+			hashText: ''
 		};
 	},
 
@@ -99,6 +99,11 @@ var app = {
 					}
 				}
 			}
+		},
+		clearCompleted: function clearCompleted() {
+			this.todos = this.todos.filter(function (item) {
+				return !item.isCompleted;
+			});
 		}
 	},
 	computed: {
@@ -106,7 +111,40 @@ var app = {
 			return this.todos.every(function (item) {
 				return item.isCompleted;
 			});
+		},
+		leftItems: function leftItems() {
+			return this.todos.filter(function (item) {
+				return !item.isCompleted;
+			}).length;
+		},
+		filterTodos: function filterTodos() {
+			if (this.hashText === 'completed') {
+				return this.todos.filter(function (item) {
+					return item.isCompleted;
+				});
+			} else if (this.hashText === 'active') {
+				return this.todos.filter(function (item) {
+					return !item.isCompleted;
+				});
+			} else {
+				return this.todos;
+			}
+		}
+	},
+	watch: {
+		todos: {
+			handler: function handler() {
+				window.localStorage.setItem('todos', JSON.stringify(this.todos));
+			},
+			deep: true
 		}
 	}
 };
+
+window.onhashchange = function () {
+	app.hashText = window.location.hash.slice(2);
+};
+
+window.onhashchange();
+
 exports.default = app;

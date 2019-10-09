@@ -1,50 +1,40 @@
 import todoHeader from './todoHeader'
 import { todoMain } from './todoMain'
 import todoFooter from './todoFooter'
-import footer from './footer'
+
 
 let template = `
     <section class="todoapp" id="app">
 		<todo-header v-on:addItem="addItem($event)" 
 		/>
+		<template v-if="todos.length">
 		<todo-main 
-			v-bind:todos="todos" v-on:deleteItem="deleteItem($event)"
+			v-bind:filterTodos="filterTodos" v-on:deleteItem="deleteItem($event)"
 			:currentItem="currentItem" @toEditing="toEditing($event)" 
 			@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"
 			:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"
 		/>
+		<todo-footer 
+			:leftItems="leftItems"
+			@clearCompleted="clearCompleted"
+		/>
+		</template>
 	</section>
 `
-let todos = [
-	{
-		id: 0,
-		value: '感冒',
-		isCompleted: false,
-	},
-	{
-		id: 1,
-		value: '发烧',
-		isCompleted: false,
-	},
-	{
-		id: 2,
-		value: '上火',
-		isCompleted: false,
-	}
-]
+let todos = []
 
 let app = {
 	components: {
 		todoHeader,
 		todoMain,
 		todoFooter,
-		footer
 	},
 	template,
 	data() {
 		return {
-			todos,
+			todos: JSON.parse(window.localStorage.getItem('todos')) || todos,
 			currentItem: null,
+			hashText: ''
 		}
 	},
 	methods: {
@@ -75,12 +65,42 @@ let app = {
 			for (let item of this.todos) {
 				item.isCompleted = res
 			}
+		},
+		clearCompleted() {
+			this.todos = this.todos.filter(item => !item.isCompleted)
 		}
 	},
 	computed: {
 		isAllCompleted() {
 			return this.todos.every(item => item.isCompleted)
+		},
+		leftItems() {
+			return this.todos.filter(item => !item.isCompleted).length
+		},
+		filterTodos() {
+			if (this.hashText === 'completed') {
+				return this.todos.filter(item => item.isCompleted)
+			} else if (this.hashText === 'active') {
+				return this.todos.filter(item => !item.isCompleted)
+			} else {
+				return this.todos
+			}
+		},
+	},
+	watch: {
+		todos: {
+			handler: function () {
+				window.localStorage.setItem('todos', JSON.stringify(this.todos))
+			},
+			deep: true
 		}
 	},
 }
+
+window.onhashchange = function () {
+	app.hashText = window.location.hash.slice(2)
+}
+
+window.onhashchange()
+
 export default app
