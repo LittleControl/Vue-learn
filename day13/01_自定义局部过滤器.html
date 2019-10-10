@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box1">
+        {{ name | nameTest(fun) }} <br>
+        {{ date | timeCheck}}
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //如果Vue实例已经定义了局部过滤器,那么就会调用局部的过滤器,而不会调用全局的过滤器
+        Vue.filter('nameTest', function (str, newStr) {
+            return str.replace(/Nothing/g, newStr)
+        })
+        const box1 = new Vue({
+            el: '#box1',
+            data: {
+                name: 'www.littlecontrol.top, Nothing to do but love',
+                fun: 'fun',
+                date: new Date()
+            },
+            filters: {
+                nameTest(str, newStr) {
+                    return str.replace(/top/g, newStr)
+                },
+                //字符串的padStart和padEnd方法
+                timeCheck(date = '') {
+                    return date.getFullYear() + '-' + date.getMonth().toString().padStart(2, 0) + '-' + date.getDay().toString().padStart(2, 0)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

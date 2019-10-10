@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="destory">Destory the Box</button>
+        <br>
+        <p v-show="isSeen">{{ name }}</p>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const box = new Vue({
+            el: '#box',
+            data: {
+                name: 'LittleControl',
+                isSeen: true
+            },
+            methods: {
+                destory() {
+                    console.log(this.$el)
+                    this.$destroy()
+                }
+            },
+            computed: {
+
+            },
+            watch: {
+
+            },
+            beforeCreate() {
+                console.log('beforeCreate')
+            },
+            created() {
+                console.log('created')
+            },
+            beforeMount() {
+                console.log('beforeMount')
+            },
+            mounted() {
+                console.log('mounted')
+                //目前能想到的就是把定时器挂载到window对象上,然后在销毁钩子函数的时候清除定时器
+                //但是这样的话,在beforeDestory和destoryed里清除定时器就都可以了
+                window.time = setInterval(() => {
+                    this.isSeen = !this.isSeen
+                    console.log('I am alive');
+                }, 1000)
+            },
+            beforeUpdate() {
+                console.log('beforeUpdate')
+            },
+            updated() {
+                console.log('updated')
+            },
+            beforeDestroy() {
+                console.log('beforeDestroy')
+                // clearInterval(window.time)
+            },
+            destroyed() {
+                console.log('destoryed has finished!')
+                // clearInterval(window.time)
+            },
+        })
+    </script>
+</body>
+
+</html>

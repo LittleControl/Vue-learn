@@ -1,0 +1,54 @@
+<!-- 
+
+    对于Vue里而言,只是在恰当的时机给你往元素上添加了一些类
+    但是类的过度动画需要自己去定义
+    所以,CSS3没有学过的话或者学过又都忘了的话,出门左转吧
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .nothing-enter-active {
+            transform: scale(1.5) 1s;
+        }
+        .nothing-leave-active {
+            transform: scale(0.5) 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="toggle">Toggle</button>
+        <br>
+        <transition name="nothing">
+            <span v-show="isSeen">{{ name }}</span>
+        </transition>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    name: 'LittleControl',
+                    isSeen: true
+                }
+            },
+            methods: {
+                toggle() {
+                    this.isSeen = !this.isSeen
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

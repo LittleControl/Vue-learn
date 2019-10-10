@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box1">
+        <p>{{name | testName('月光','凌晨')}}</p>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //过滤器定义必须放在最前面,否则会没有效果
+        Vue.filter('testName', function (name, str1, str2) {
+            return name.replace(/夕阳/g,str1+str2)
+        })
+        const box1 = new Vue({
+            el: '#box1',
+            data: {
+                name: '那天我看见夕阳下的奔跑,那是我逝去的青春,夕阳呀,去哪了呢'
+            }
+        })
+    </script>
+</body>
+
+</html>
