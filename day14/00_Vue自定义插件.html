@@ -9,20 +9,20 @@
 </head>
 
 <body>
-    <div id="app" v-nothing>
+    <div id="app" v-nothing="msg">
         <h1>{{ msg }}</h1>
     </div>
     <script src="../node_modules/vue/dist/vue.js"></script>
     <script src="./MyPlugin.js"></script>
     <script>
-        Vue.use('MyPlugin')
+        Vue.use(MyPlugin)
+        Vue.myGlobalMethod()
         const app = new Vue({
             el: '#app',
             data: {
                 msg: 'LittleControl'
             }
         })
-        MyPlugin.myGlobalMethod()
         app.$myMethod()
     </script>
 </body>
