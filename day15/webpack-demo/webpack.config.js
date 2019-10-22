@@ -9,7 +9,8 @@ module.exports = {
     module: {
         rules: [
             {
-                test: '/\.css$/',
+                //这里正则表达式不可以使用字符串!!!
+                test: /\.css$/,
                 use: ['style-loader', 'css-loader']
             },
         ]
