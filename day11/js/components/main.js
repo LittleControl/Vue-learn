@@ -16,6 +16,7 @@ let template = `
 		<todo-footer 
 			:leftItems="leftItems"
 			@clearCompleted="clearCompleted"
+			:hashText="hashText"
 		/>
 		</template>
 	</section>

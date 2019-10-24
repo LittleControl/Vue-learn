@@ -16,7 +16,7 @@ var _todoFooter2 = _interopRequireDefault(_todoFooter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:addItem="addItem($event)" \n\t\t/>\n\t\t<template v-if="todos.length">\n\t\t<todo-main \n\t\t\tv-bind:filterTodos="filterTodos" v-on:deleteItem="deleteItem($event)"\n\t\t\t:currentItem="currentItem" @toEditing="toEditing($event)" \n\t\t\t@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"\n\t\t\t:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"\n\t\t/>\n\t\t<todo-footer \n\t\t\t:leftItems="leftItems"\n\t\t\t@clearCompleted="clearCompleted"\n\t\t/>\n\t\t</template>\n\t</section>\n';
+var template = '\n    <section class="todoapp" id="app">\n\t\t<todo-header v-on:addItem="addItem($event)" \n\t\t/>\n\t\t<template v-if="todos.length">\n\t\t<todo-main \n\t\t\tv-bind:filterTodos="filterTodos" v-on:deleteItem="deleteItem($event)"\n\t\t\t:currentItem="currentItem" @toEditing="toEditing($event)" \n\t\t\t@doneEdit="doneEdit($event)" @cancelEdit="cancelEdit($event)"\n\t\t\t:isAllCompleted="isAllCompleted" @toggleAll="toggleAll($event)"\n\t\t/>\n\t\t<todo-footer \n\t\t\t:leftItems="leftItems"\n\t\t\t@clearCompleted="clearCompleted"\n\t\t\t:hashText="hashText"\n\t\t/>\n\t\t</template>\n\t</section>\n';
 var todos = [];
 
 var app = {
