@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{ name }} <br><br>
+        <button @click="destroy">Destroy</button>
+        <p v-show="isShow">www.littlecontrol.top</p>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue(
+            {
+                data() {
+                    return {
+                        name: 'Avalon',
+                        isShow: true
+                    }
+                },
+                methods: {
+                    destroy() {
+                        this.$destroy()
+                    }
+                },
+                beforeCreate() {
+                    console.log('beforeCreate')
+                },
+                created() {
+                    console.log('created')
+
+                },
+                beforeMount() {
+                    console.log('beforeMount')
+                },
+                mounted() {
+                    //初始化显示之后,常用于发送ajax请求,设置定时器等等
+                    console.log('nounted')
+                    this.timer0 = setInterval(() => {
+                        this.isShow = !this.isShow
+                        console.log('Nothing')
+                    }, 1000)
+                },
+                beforeUpdate() {
+                    console.log('beforeUpdate')
+                },
+                updated() {
+                    console.log('updated')
+                },
+                beforeDestroy() {
+                    //销毁之后的收尾工作,常用于清除定时器等等
+                    console.log('beforeDestroy')
+                    clearInterval(this.timer0)
+
+                },
+                destroyed() {
+                    console.log('destroyd')
+                },
+            }
+        ).$mount('#app')
+        console.log(app)
+    </script>
+</body>
+
+</html>
