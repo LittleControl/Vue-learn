@@ -1,5 +1,7 @@
 <template>
   <ul>
+    <input type="text" />
+    <br />
     <li v-for="item in lists" :key="item.id">
       <span>{{item.name}}</span>
     </li>

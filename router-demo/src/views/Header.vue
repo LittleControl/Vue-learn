@@ -6,7 +6,9 @@
       <router-link to="/header/saying">Saying</router-link>
     </div>
     <div class="value">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>
