@@ -12,7 +12,12 @@
       :isAllCompleted="isAllCompleted"
       @toggleAll="toggleAll($event)"
     />
-    <TodoFooter v-if="this.todos.length" :leftItems="leftItems" @clearCompleted="clearCompleted" />
+    <TodoFooter
+      v-if="this.todos.length"
+      :leftItems="leftItems"
+      @clearCompleted="clearCompleted"
+      :hashText="hashText"
+    />
   </section>
 </template>
 

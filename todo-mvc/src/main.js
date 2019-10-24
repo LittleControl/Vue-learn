@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-// import AllFooter from './components/AllFooter.vue'
 
 Vue.directive('focus', {
   inserted(el, binding) {
@@ -20,14 +19,11 @@ const app = new Vue({
   el: '#app',
   components: {
     App,
-    // AllFooter
   },
   data: {
     hashText: ''
   },
-  // template: `<div><App :hashText="hashText" /><AllFooter /></div>`,
   template: `<App :hashText="hashText" />`,
-  // template: `<section class="todoapp" id="app"><App :hashText="hashText" /><AllFooter /></section>`
 })
 
 window.onhashchange = function () {

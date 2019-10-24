@@ -5,13 +5,13 @@
     </span>
     <ul class="filters">
       <li>
-        <a :class="{selected: hashText===''}" href="#/">All</a>
+        <a :class="{selected: hashText == ''}" href="#/">All</a>
       </li>
       <li>
-        <a :class="{selected: hashText==='active'}" href="#/active">Active</a>
+        <a :class="{selected: hashText == 'active'}" href="#/active">Active</a>
       </li>
       <li>
-        <a :class="{selected: hashText==='completed'}" href="#/completed">Completed</a>
+        <a :class="{selected: hashText == 'completed'}" href="#/completed">Completed</a>
       </li>
     </ul>
     <button class="clear-completed" @click="clearCompleted">Clear completed</button>
