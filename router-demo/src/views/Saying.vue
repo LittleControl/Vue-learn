@@ -1,9 +1,12 @@
 <template>
   <div>
     <ul>
+      <button @click="$router.back()">Back</button>
       <li v-for="item in sayings" :key="item.id">
         <!-- <p>ID: {{`/header/saying/details/${item.id}`}}</p> -->
         <router-link :to="`/header/saying/details/${item.id}`">{{ item.content }}</router-link>
+        <button @click="pushShow(item.id)">Push</button>
+        <button @click="replaceShow(item.id)">Replace</button>
       </li>
     </ul>
     <router-view></router-view>
@@ -30,6 +33,14 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    pushShow(id) {
+      this.$router.push(`/header/saying/details/${id}`);
+    },
+    replaceShow(id) {
+      this.$router.replace(`/header/saying/details/${id}`);
+    }
   }
 };
 </script>

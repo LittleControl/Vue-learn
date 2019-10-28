@@ -44,7 +44,7 @@ export default {
         //这个value就是新的$route
         this.id = value.params.id * 1;
         this.details = this.datas.find(item => item.id === this.id);
-        console.log(this.details);
+        // console.log(this.details);
       }
     }
   }
