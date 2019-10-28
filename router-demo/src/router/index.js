@@ -5,6 +5,7 @@ import Header from '@/views/Header'
 import Footer from '@/views/Footer'
 import List from '@/views/List'
 import Saying from '@/views/Saying'
+import Detail from '@/views/Detail'
 
 Vue.use(Router)
 
@@ -34,8 +35,19 @@ export default new Router({
         },
         {
           path: 'saying',
-          name: 'Saying',
-          component: Saying
+          // name: 'Saying',
+          component: Saying,
+          children: [
+            {
+              path: '/header/saying/details/:id',
+              name: 'Detail',
+              component: Detail
+            },
+            // {
+            //   path: '',
+            //   redirect: ''
+            // }
+          ]
         },
         {
           path: '',

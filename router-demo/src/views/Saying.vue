@@ -1,9 +1,14 @@
 <template>
-  <ul>
-    <li v-for="item in sayings" :key="item.id">
-      <span>{{ item.content }}</span>
-    </li>
-  </ul>
+  <div>
+    <ul>
+      <li v-for="item in sayings" :key="item.id">
+        <!-- <p>ID: {{`/header/saying/details/${item.id}`}}</p> -->
+        <router-link :to="`/header/saying/details/${item.id}`">{{ item.content }}</router-link>
+      </li>
+    </ul>
+    <router-view></router-view>
+    <br />
+  </div>
 </template>
 
 <script>
